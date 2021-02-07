@@ -18,8 +18,6 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
-    "electron-simple-publisher": "^2.0.0",
-    "electron-simple-updater": "^2.0.9",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -52,39 +50,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ], 
-  "author": "özgün",
-  "license": "MIT",
-  "build": {
-    "appId": "ooe.testElectron",
-    "files": [
-      "!publisher.json",
-      "!README.md",
-      "!updates.json"
-    ],
-    "linux": {
-      "category": "Development",
-      "publish": false,
-      "target": "AppImage"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools"
-    },
-    "win": {
-      "target": "squirrel"
-    },
-    "squirrelWindows": {
-      "iconUrl": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/build/icon.ico"
-    }
-  },
-  "updater": {
-    "url": "https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json"
-  },
-  "engines": {
-    "node": ">=6.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OO-E/test-electron.git"
-  }
+  ]
 }
