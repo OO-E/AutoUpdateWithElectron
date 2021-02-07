@@ -167,7 +167,7 @@ class SimpleUpdater extends EventEmitter {
   }
 
   get build() {
-    if (!this.checkIsInitialized()) return;
+    if (!this.checkIsInitialized()) return "";
     return this.options.build;
   }
 
@@ -181,12 +181,12 @@ class SimpleUpdater extends EventEmitter {
   }
 
   get channel() {
-    if (!this.checkIsInitialized()) return;
+    if (!this.checkIsInitialized()) return "";
     return this.options.channel;
   }
 
   get version() {
-    if (!this.checkIsInitialized()) return;
+    if (!this.checkIsInitialized()) return "";
     return this.options.version;
   }
 
