@@ -7,8 +7,8 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 
 //Elektron update
-const updater = require('./updater_index')
-updater.init('https://raw.githubusercontent.com/OO-E/test-electron/master/updates.json');
+// const updater = require('./updater_index')
+// updater.init('https://raw.githubusercontent.com/OO-E/test-electron/master/updates.json');
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
