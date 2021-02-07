@@ -5,6 +5,11 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+
+//Elektron update
+const updater = require('./updater_index')
+updater.init('https://raw.githubusercontent.com/megahertz/electron-simple-updater/master/example/updates.json');
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
