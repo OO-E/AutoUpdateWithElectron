@@ -13,7 +13,7 @@
     "postuninstall": "electron-builder install-app-deps",
     "dist": "electron-builder",
     "publish": "publish",
-    "release": "npm run dist && npm run publish"
+    "release": "npm run electron:build-win && npm run publish"
   },
   "main": "background.js",
   "dependencies": {
