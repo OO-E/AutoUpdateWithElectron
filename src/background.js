@@ -5,10 +5,14 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+const {autoUpdater} = require('electron-updater');
+const log = require('electron-log');
 
-//Elektron update
-// const updater = require('./updater_index')
-// updater.init('https://raw.githubusercontent.com/OO-E/test-electron/master/updates.json');
+// configure logging
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+let mainWindow;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -17,7 +21,7 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -29,12 +33,12 @@ async function createWindow() {
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) mainWindow.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    mainWindow.loadURL('app://./index.html')
   }
 }
 
@@ -82,3 +86,41 @@ if (isDevelopment) {
     })
   }
 }
+
+//-------------------------------------------------------------------
+// Auto updates
+//-------------------------------------------------------------------
+const sendStatusToWindow = (text) => {
+  log.info(text);
+  if (mainWindow) {
+    mainWindow.webContents.send('message', text);
+  }
+};
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+autoUpdater.on('update-available', () => {
+  sendStatusToWindow('Update available.');
+});
+autoUpdater.on('update-not-available', () => {
+  sendStatusToWindow('Update not available.');
+});
+autoUpdater.on('error', err => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+autoUpdater.on('download-progress', progressObj => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  );
+});
+autoUpdater.on('update-downloaded', () => {
+  sendStatusToWindow('Update downloaded; will install now');
+});
+
+autoUpdater.on('update-downloaded', () => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
+});
