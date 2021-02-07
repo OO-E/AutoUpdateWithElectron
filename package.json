@@ -11,6 +11,8 @@
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
+    "dist": "electron-builder",
+    "publish": "publish",
     "release": "npm run dist && npm run publish"
   },
   "main": "background.js",
