@@ -9,12 +9,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-autoUpdater.setFeedURL({
-  provider: 'github',
-  owner: "OO-E",
-  repo: "test-electron",
-  token: "fdf2694591d6fff57bd9ae48672b3d35ef576c21",
-});
+
 autoUpdater.checkForUpdatesAndNotify()
 
 async function createWindow() {
