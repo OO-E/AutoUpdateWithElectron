@@ -58,12 +58,5 @@
     "url": "git+https://github.com/OO-E/test-electron.git"
   },
   "author": "OO-E",
-  "license": "CC0-1.0",
-  "build": {
-    "publish": [{
-        "provider": "github",
-        "owner": "OO-E",
-        "repo": "test-electron"
-    }]
-  }
+  "license": "CC0-1.0"
 }
