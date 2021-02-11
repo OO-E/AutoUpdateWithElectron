@@ -31,6 +31,8 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     mainWindow.loadURL('app://./index.html')
+    autoUpdater.checkForUpdatesAndNotify()
+
   }
 }
 
@@ -53,10 +55,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  autoUpdater.setFeedURL("https://github.com/OO-E/test-electron/releases/latest");
-
   createWindow()
-  autoUpdater.checkForUpdatesAndNotify()
 })
 
 
