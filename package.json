@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -17,7 +17,7 @@
     "inspect-main": "electron-inspector",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --x64 --mac",
-    "gh-publish": "vue-cli-service electron:build -p always",
+    "gh-publish": "vue-cli-service electron:build --win --mac -p always",
     "release": "build"
   },
   "main": "background.js",

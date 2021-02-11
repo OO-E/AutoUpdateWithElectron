@@ -2,22 +2,20 @@
 
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-const isDevelopment = process.env.NODE_ENV !== 'production'
-
 const {autoUpdater} = require('electron-updater');
-const log = require('electron-log');
-
-// configure logging
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
 let mainWindow;
-
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
+
+autoUpdater.setFeedURL({
+  provider: 'github',
+  owner: "OO-E",
+  repo: "test-electron",
+  token: "fdf2694591d6fff57bd9ae48672b3d35ef576c21",
+});
+autoUpdater.checkForUpdatesAndNotify()
 
 async function createWindow() {
   // Create the browser window.
@@ -61,66 +59,36 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
-  }
   createWindow()
 })
 
-// Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
-  if (process.platform === 'win32') {
-    process.on('message', (data) => {
-      if (data === 'graceful-exit') {
-        app.quit()
-      }
-    })
-  } else {
-    process.on('SIGTERM', () => {
-      app.quit()
-    })
-  }
-}
-
-//-------------------------------------------------------------------
-// Auto updates
-//-------------------------------------------------------------------
-const sendStatusToWindow = (text) => {
-  log.info(text);
-  if (mainWindow) {
-    mainWindow.webContents.send('message', text);
-  }
-};
 
 autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
-});
-autoUpdater.on('update-available', () => {
-  sendStatusToWindow('Update available.');
-});
-autoUpdater.on('update-not-available', () => {
-  sendStatusToWindow('Update not available.');
-});
-autoUpdater.on('error', err => {
-  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
-});
-autoUpdater.on('download-progress', progressObj => {
-  sendStatusToWindow(
-    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
-  );
-});
-autoUpdater.on('update-downloaded', () => {
-  sendStatusToWindow('Update downloaded; will install now');
-});
+  dispatch('Checking for update...')
+})
 
-autoUpdater.on('update-downloaded', () => {
-  // Wait 5 seconds, then quit and install
-  // In your application, you don't need to wait 500 ms.
-  // You could call autoUpdater.quitAndInstall(); immediately
-  autoUpdater.quitAndInstall();
-});
+autoUpdater.on('update-available', (info) => {
+  dispatch('Update available.')
+})
+
+autoUpdater.on('update-not-available', (info) => {
+  dispatch('Update not available.')
+})
+
+autoUpdater.on('error', (err) => {
+  dispatch('Error in auto-updater. ' + err)
+})
+
+autoUpdater.on('download-progress', (progressObj) => {
+  // let log_message = "Download speed: " + progressObj.bytesPerSecond
+  // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+  // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
+  // dispatch(log_message)
+
+    win.webContents.send('download-progress', progressObj.percent)
+
+})
+
+autoUpdater.on('update-downloaded', (info) => {
+  dispatch('Update downloaded')
+})
