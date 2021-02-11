@@ -17,7 +17,7 @@
     "inspect-main": "electron-inspector",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --x64 --mac",
-    "gh-publish": "vue-cli-service electron:build --win -p always",
+    "gh-publish": "vue-cli-service electron:build -p always",
     "release": "build"
   },
   "main": "background.js",
