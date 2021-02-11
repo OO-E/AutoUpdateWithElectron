@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -58,5 +58,12 @@
     "url": "git+https://github.com/OO-E/test-electron.git"
   },
   "author": "OO-E",
-  "license": "CC0-1.0"
+  "license": "CC0-1.0",
+  "build": {
+    "publish": [{
+        "provider": "github",
+        "owner": "OO-E",
+        "repo": "test-electron"
+    }]
+  }
 }

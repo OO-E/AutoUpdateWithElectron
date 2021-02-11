@@ -4,11 +4,14 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 const {autoUpdater} = require('electron-updater');
 let mainWindow;
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+
+autoUpdater.checkForUpdates();
 
 
 async function createWindow() {
@@ -81,10 +84,11 @@ autoUpdater.on('download-progress', (progressObj) => {
   // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
   // dispatch(log_message)
 
-    win.webContents.send('download-progress', progressObj.percent)
+    mainWindow.webContents.send('prog-made');
 
 })
 
 autoUpdater.on('update-downloaded', (info) => {
   dispatch('Update downloaded')
+  autoUpdater.quitAndInstall();
 })
