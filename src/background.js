@@ -29,7 +29,10 @@ async function createWindow() {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) mainWindow.webContents.openDevTools()
+    console.log(process.env.WEBPACK_DEV_SERVER_URL)
+   // if (!process.env.IS_TEST) mainWindow.webContents.openDevTools()
+   autoUpdater.checkForUpdatesAndNotify()
+
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -68,6 +71,7 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', (info) => {
   dispatch('Update available.')
+  autoUpdater.quitAndInstall();
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -90,5 +94,5 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 autoUpdater.on('update-downloaded', (info) => {
   dispatch('Update downloaded')
-  autoUpdater.quitAndInstall();
+  
 })
