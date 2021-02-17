@@ -5,7 +5,7 @@ export GH_TOKEN="token"
 ```
 npm run release -> Kodların yayılmasında kullanılır
 ```
-
+---
 
 >By default, it writes **logs** to the following locations:
 
