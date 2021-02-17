@@ -2,7 +2,9 @@
 
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-const {autoUpdater} = require('electron-updater');
+const updater = require('./updater')
+
+
 let mainWindow;
 
 // Scheme must be registered before the app is ready
@@ -10,11 +12,13 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-
-autoUpdater.checkForUpdates();
-
-
 async function createWindow() {
+
+  //Check for update
+
+  setTimeout(updater, 3000);
+
+
   // Create the browser window.
    mainWindow = new BrowserWindow({
     width: 800,
@@ -31,14 +35,11 @@ async function createWindow() {
     await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     console.log(process.env.WEBPACK_DEV_SERVER_URL)
    // if (!process.env.IS_TEST) mainWindow.webContents.openDevTools()
-   autoUpdater.checkForUpdatesAndNotify()
 
   } else {
     createProtocol('app')
     // Load the index.html when not in development
     mainWindow.loadURL('app://./index.html')
-    autoUpdater.checkForUpdatesAndNotify()
-
   }
 }
 
@@ -64,35 +65,3 @@ app.on('ready', async () => {
   createWindow()
 })
 
-
-autoUpdater.on('checking-for-update', () => {
-  dispatch('Checking for update...')
-})
-
-autoUpdater.on('update-available', (info) => {
-  dispatch('Update available.')
-  autoUpdater.quitAndInstall();
-})
-
-autoUpdater.on('update-not-available', (info) => {
-  dispatch('Update not available.')
-})
-
-autoUpdater.on('error', (err) => {
-  dispatch('Error in auto-updater. ' + err)
-})
-
-autoUpdater.on('download-progress', (progressObj) => {
-  // let log_message = "Download speed: " + progressObj.bytesPerSecond
-  // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
-  // dispatch(log_message)
-
-    mainWindow.webContents.send('prog-made');
-
-})
-
-autoUpdater.on('update-downloaded', (info) => {
-  dispatch('Update downloaded')
-  
-})

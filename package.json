@@ -1,10 +1,9 @@
 {
   "name": "test",
-  "version": "1.0.14",
+  "version": "1.0.22",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:build-win": "vue-cli-service electron:build --win",
@@ -16,9 +15,9 @@
     "production": "electron .",
     "inspect-main": "electron-inspector",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --x64 --mac",
-    "gh-publish": "vue-cli-service electron:build --win --mac -p always",
-    "release": "build"
+    "dist": "electron-builder --mac",
+    "publish": "vue-cli-service electron:build --win --mac -p always",
+    "release": "vue-cli-service electron:build --win --mac -p 'onTagOrDraft'"
   },
   "main": "background.js",
   "dependencies": {

@@ -1,7 +1,0 @@
-{
-    "transport": {
-      "module": "github",
-      "token": "d7fed0cfbcdc8da4bd1d59fe92eb52adf7d90371",
-      "updatesJsonPath": "updates.json"
-    }
-  }
