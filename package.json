@@ -54,7 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OO-E/test-electron.git"
+    "url": "git+https://github.com/OO-E/AutoUpdateWithElectron.git"
   },
   "author": "OO-E",
   "license": "CC0-1.0"
